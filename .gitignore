@@ -1,3 +1,8 @@
+# dbt
+dbt_packages/
+logs/
+.user.yml
+
 # System files
 .DS_Store
 
