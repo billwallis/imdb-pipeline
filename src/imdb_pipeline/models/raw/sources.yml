@@ -1,0 +1,186 @@
+sources:
+  - name: imdb
+    tables:
+      # name basics
+      - name: name.basics.tsv
+        config:
+          external_location: "read_csv('src/imdb_pipeline/models/raw/name.basics.tsv')"
+        columns:
+          - name: nconst
+            data_type: text
+            description: Alphanumeric unique identifier of the name/person.
+          - name: primaryName
+            data_type: text
+            description: Name by which the person is most often credited.
+          - name: birthYear
+            data_type: text
+            description: Number in YYYY format.
+          - name: deathYear
+            data_type: text
+            description: Number in YYYY format if applicable, else '\N'.
+          - name: primaryProfession
+            data_type: text[]
+            description: The top-3 professions of the person.
+          - name: knownForTitles
+            data_type: text[]
+            description: Titles the person is known for.
+
+      # title akas
+      - name: title.akas.tsv
+        external: {location: "src/imdb_pipeline/models/raw"}
+        columns:
+          - name: titleId
+            data_type: text
+            description: >
+              A tconst, an alphanumeric unique identifier of the title.
+          - name: ordering
+            data_type: integer
+            description: A number to uniquely identify rows for a given titleId.
+          - name: title
+            data_type: text
+            description: The localised title.
+          - name: region
+            data_type: text
+            description: The region for this version of the title.
+          - name: language
+            data_type: text
+            description: The language of the title.
+          - name: types
+            data_type: text[]
+            description: >
+              Enumerated set of attributes for this alternative title.
+
+              One or more of the following:
+
+                - `alternative`
+                - `dvd`
+                - `festival`
+                - `tv`
+                - `video`
+                - `working`
+                - `original`
+                - `imdbDisplay`
+
+              New values may be added in the future without warning.
+          - name: attributes
+            data_type: text[]
+            description: >
+              Additional terms to describe this alternative title, not
+              enumerated.
+          - name: isOriginalTitle
+            data_type: boolean
+            description: >
+              - 0: not original title
+              - 1: original title
+
+      # title basics
+      - name: title.basics.tsv
+        external: {location: "src/imdb_pipeline/models/raw"}
+        columns:
+          - name: tconst
+            data_type: text
+            description: Alphanumeric unique identifier of the title.
+          - name: titleType
+            data_type: text
+            description: >
+              The type/format of the title (e.g. movie, short, tvseries,
+              tvepisode, video, etc).
+          - name: primaryTitle
+            data_type: text
+            description: >
+              The more popular title / the title used by the filmmakers on
+              promotional materials at the point of release.
+          - name: originalTitle
+            data_type: text
+            description: Original title, in the original language.
+          - name: isAdult
+            data_type: (boolean)
+            description: >
+              - 0: non-adult title
+              - 1: adult title
+          - name: startYear
+            data_type: text
+            description: >
+              Represents the release year of a title. In the case of TV Series,
+              it is the series start year.
+          - name: endYear
+            data_type: text
+            description: TV Series end year. '\N' for all other title types.
+          - name: runtimeMinutes
+            data_type: integer
+            description: Primary runtime of the title, in minutes.
+          - name: genres
+            data_type: text[]
+            description: Includes up to three genres associated with the title.
+
+      # title crew
+      - name: title.crew.tsv
+        external: {location: "src/imdb_pipeline/models/raw"}
+        columns:
+          - name: tconst
+            data_type: text
+            description: Alphanumeric unique identifier of the title.
+          - name: directors
+            data_type: text[]
+            description: Director(s) of the given title.
+          - name: writers
+            data_type: text[]
+            description: Writer(s) of the given title.
+
+      # title episode
+      - name: title.episode.tsv
+        external: {location: "src/imdb_pipeline/models/raw"}
+        columns:
+          - name: tconst
+            data_type: text
+            description: Alphanumeric identifier of episode.
+          - name: parentTconst
+            data_type: text
+            description: Alphanumeric identifier of the parent TV Series.
+          - name: seasonNumber
+            data_type: integer
+            description: Season number the episode belongs to.
+          - name: episodeNumber
+            data_type: integer
+            description: Episode number of the tconst in the TV series.
+
+      # title principals
+      - name: title.principals.tsv
+        external: {location: "src/imdb_pipeline/models/raw"}
+        columns:
+          - name: tconst
+            data_type: text
+            description: Alphanumeric unique identifier of the title.
+          - name: ordering
+            data_type: integer
+            description: A number to uniquely identify rows for a given titleId.
+          - name: nconst
+            data_type: text
+            description: Alphanumeric unique identifier of the name/person.
+          - name: category
+            data_type: text
+            description: The category of job that person was in.
+          - name: job
+            data_type: text
+            description: The specific job title if applicable, else '\N'.
+          - name: characters
+            data_type: text
+            description: >
+              The name of the character played if applicable, else '\N'.
+
+      # title ratings
+      - name: title.ratings.tsv
+        external: {location: "src/imdb_pipeline/models/raw"}
+        columns:
+          - name: tconst
+            data_type: text
+            description: Alphanumeric unique identifier of the title.
+          - name: averageRating
+            data_type:
+            description: Weighted average of all the individual user ratings.
+          - name: numVotes
+            data_type:
+            description: Number of votes the title has received.
+    config:
+      meta:
+        external_location: "src/imdb_pipeline/models/raw/{name}"
