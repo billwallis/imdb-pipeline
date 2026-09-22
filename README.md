@@ -16,6 +16,10 @@ Raw IMDb data is available at:
 
 - https://datasets.imdbws.com/
 
+Corresponding documentation is available at:
+
+- https://data.imdb.com/non-commercial-datasets/
+
 ## Contributing
 
 Install the dependencies:

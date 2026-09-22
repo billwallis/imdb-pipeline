@@ -11,7 +11,9 @@ authors = [{name = "billwallis"}]
 readme = "README.md"
 license-files = ["LICENSE"]
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "dbt>=2.0.0",
+]
 
 [dependency-groups]
 dev = [
@@ -28,6 +30,17 @@ envfile.optional = ".env"
 install.shell = """
     pip install --editable . --group dev
     pre-commit install --install-hooks
+"""
+clean.shell = """
+    dbt clean
+    rm -rf src/imdb_pipeline/dist/
+    rm -rf src/imdb_pipeline/logs/
+    rm -rf src/imdb_pipeline/target/
+    dbt deps
+"""
+compile.shell = """
+    dbt compile --no-warn-error --write-metadata --write-lineage
+    dbt compile --no-warn-error
 """
 
 [tool.poe.tasks.lint]

@@ -63,3 +63,25 @@ repos:
         name: Validate .pre-commit-hooks.yaml schema
         files: .pre-commit-hooks.yaml
         args: ["--schemafile", "https://json.schemastore.org/pre-commit-hooks.json"]
+
+      # dbt YAML files
+      - <<: *check-jsonschema-config
+        id: check-dbt-project-schema
+        name: Validate dbt_project.yml schema
+        files: dbt_project.yml
+        args: ["--schemafile", "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest/dbt_project-latest.json"]
+      - <<: *check-jsonschema-config
+        id: check-packages-schema
+        name: Validate packages.yml schema
+        files: packages.yml
+        args: ["--schemafile", "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest/packages-latest.json"]
+      - <<: *check-jsonschema-config
+        id: check-selectors-schema
+        name: Validate selectors.yml schema
+        files: selectors.yml
+        args: ["--schemafile", "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest/selectors-latest.json"]
+      - <<: *check-jsonschema-config
+        id: check-dbt-yaml-files-schemas
+        name: Validate various dbt YAML file schemas
+        files: ^(macros|models|analysis|snapshots)/.*\.yml$
+        args: ["--schemafile", "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest/dbt_yml_files-latest.json"]

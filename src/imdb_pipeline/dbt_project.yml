@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest/dbt_project-latest.json
+---
+name: imdb_pipeline
+version: 0.0.1
+
+config-version: 2
+require-dbt-version: [">=2.0.0"]
+profile: imdb_pipeline
+
+clean-targets: ["target", "dbt_modules", "dbt_packages"]
+macro-paths: ["macros"]
+
+flags:
+  require_generic_test_arguments_property: true
+
+quoting:
+  database: false
+  schema: false
+  identifier: false
+
+models:
+  +persist_docs:
+    relation: true
+    columns: true
