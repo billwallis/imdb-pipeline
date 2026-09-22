@@ -4,9 +4,9 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "python-template"
+name = "imdb-pipeline"
 version = "0.0.0"
-description = ""
+description = "Pipeline for IMDb data."
 authors = [{name = "billwallis"}]
 readme = "README.md"
 license-files = ["LICENSE"]
@@ -18,11 +18,6 @@ dev = [
     "poethepoet>=0.46.0",
     "pre-commit>=4.6.0",
 ]
-test = [
-    "covdefaults>=2.3.0",
-    "coverage>=7.13.5",
-    "pytest>=9.0.3",
-]
 
 
 [tool.poe]
@@ -31,14 +26,8 @@ envfile.optional = ".env"
 
 [tool.poe.tasks]
 install.shell = """
-    pip install --editable . --group dev --group test
+    pip install --editable . --group dev
     pre-commit install --install-hooks
-"""
-test.shell = """
-    coverage run -m pytest -vvv
-    coverage report --no-skip-covered --include 'src/*'
-    coverage report --no-skip-covered --include 'tests/*'
-    coverage xml --quiet
 """
 
 [tool.poe.tasks.lint]
@@ -60,16 +49,3 @@ shell = """
     echo '\\033[0;34mpre-push checks\\033[0m'
     SKIP=identity pre-commit run --all-files --hook-stage pre-push
 """
-
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-
-[tool.coverage]
-run.source = ["src", "tests"]
-run.plugins = ["covdefaults"]  # https://youtu.be/70T6OxKwxm0
-report.fail_under = 80
-report.exclude_lines = [
-    "@pytest.mark.skip",
-    "@pytest.mark.xfail",
-]
