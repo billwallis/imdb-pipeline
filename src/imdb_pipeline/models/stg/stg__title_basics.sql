@@ -7,5 +7,5 @@ select
     nullif(startYear, '\N')::int as start_year,
     nullif(endYear, '\N')::int as end_year,
     nullif(runtimeMinutes, '\N')::int as runtime_minutes,
-    split(genres, ',') as genres,
+    list_sort(split(genres, ',')) as genres,
 from {{ source("imdb", "title.basics.tsv") }}
