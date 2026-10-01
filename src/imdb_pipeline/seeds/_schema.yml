@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest/dbt_yml_files.json
+---
+seeds:
+  - name: seed_watchlist
+    config:
+      column_types:
+        title_id: varchar
+        watched: bool
+    columns:
+      - name: title_id
+        data_tests:
+          - not_null
+          - unique
+      - name: watched
+        data_tests:
+          - not_null
