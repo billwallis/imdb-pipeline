@@ -8,17 +8,29 @@ name = "imdb-pipeline"
 version = "0.0.0"
 description = "Pipeline for IMDb data."
 authors = [{name = "billwallis"}]
+maintainers = [{name = "billwallis"}]
 readme = "README.md"
+urls.Homepage = "https://github.com/billwallis/imdb-pipeline"
+urls.Repository = "https://github.com/billwallis/imdb-pipeline"
+urls.Issues = "https://github.com/billwallis/imdb-pipeline/issues"
+urls.Documentation = "https://github.com/billwallis/imdb-pipeline/blob/main/README.md"
+license = "GPL-3.0-or-later"
 license-files = ["LICENSE"]
 requires-python = ">=3.13"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
+]
 dependencies = [
     "dbt>=2.0.0",
 ]
 
 [dependency-groups]
 dev = [
-    "poethepoet>=0.46.0",
-    "pre-commit>=4.6.0",
+    "poethepoet>=0.48.0",
+    "pre-commit>=4.6.2",
 ]
 
 
@@ -28,7 +40,11 @@ envfile.optional = ".env"
 
 [tool.poe.tasks]
 install.shell = """
-    pip install --editable . --group dev
+    pip install \
+        --editable . \
+        --group dev \
+        --uploaded-prior-to P7D \
+        --force-reinstall
     pre-commit install --install-hooks
 """
 clean.shell = """
