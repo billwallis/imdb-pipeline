@@ -22,3 +22,6 @@ models:
   +persist_docs:
     relation: true
     columns: true
+
+  imdb_pipeline:
+    +materialized: table
